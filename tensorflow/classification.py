@@ -1,15 +1,16 @@
+import numpy as np
 import tensorflow as tf
 from tensorflow.keras import Model
 from tensorflow.keras.callbacks import EarlyStopping
 from tensorflow.keras.regularizers import L2
 from tensorflow.keras.layers import Dense
 from spektral.data.loaders import BatchLoader
+from spektral.datasets import TUDataset
 from spektral.layers import GraphMasking
 from spektral.layers.pooling import GlobalAvgPool
 from GTVConv import GTVConv
 from AsymCheegerCutPool import AsymCheegerCutPool
-import numpy as np
-from spektral.datasets import TUDataset
+
 
 ################################
 # CONFIG
@@ -48,7 +49,6 @@ idx_tr, idx_va, idx_te = np.split(idxs, [split_va, split_te])
 dataset_tr = dataset[idx_tr]
 dataset_va = dataset[idx_va]
 dataset_te = dataset[idx_te]
-
 loader_tr = BatchLoader(dataset_tr, batch_size=batch_size, mask=True)
 loader_va = BatchLoader(dataset_va, batch_size=batch_size, shuffle=False, mask=True)
 loader_te = BatchLoader(dataset_te, batch_size=batch_size, shuffle=False, mask=True)

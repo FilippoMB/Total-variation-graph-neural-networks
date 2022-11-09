@@ -24,7 +24,6 @@ mlp_activation = "relu"
 delta_coeff = 0.311
 totvar_coeff=0.785
 balance_coeff=0.514
-epsilon=1e-3
 learning_rate = 1e-3
 epochs = 1000
 
@@ -41,9 +40,10 @@ n_clust = Y.shape[-1]
 ################################
 # MODEL
 ################################
-
-# Define the general structure
 class ClusteringModel(Model):
+    """
+    Defines the general model structure
+    """
 
     def __init__(self, aggr, pool):
         super().__init__()

@@ -94,20 +94,23 @@ class GTVConv(Conv):
     
             # Compute absolute differences between neighbouring nodes
             abs_diff = tf.math.abs(tf.transpose(tf.gather(x, index_i)) -
-                                    tf.transpose(tf.gather(x, index_j)))
+                                   tf.transpose(tf.gather(x, index_j)))
             abs_diff = tf.math.reduce_sum(abs_diff, axis=0)
     
             # Compute new adjacency matrix
             gamma = tf.sparse.map_values(tf.multiply,
                                          a,
                                          1 / tf.math.maximum(abs_diff, self.epsilon))
+            
             # Compute degree matrix from gamma matrix
             d_gamma = tf.sparse.SparseTensor(tf.stack([tf.range(n_nodes)] * 2, axis=1),
                                              tf.sparse.reduce_sum(gamma, axis=-1),
                                              [n_nodes, n_nodes])
+            
             # Compute laplcian: L = D_gamma - Gamma
             l = tf.sparse.add(d_gamma, tf.sparse.map_values(
                 tf.multiply, gamma, -1.))
+            
             # Compute adjsuted laplacian: L_adjusted = I - delta*L
             l = tf.sparse.add(tf.sparse.eye(n_nodes), tf.sparse.map_values(
                 tf.multiply, l, -self.delta_coeff))
@@ -134,9 +137,7 @@ class GTVConv(Conv):
 
     def _call_batch(self, x, a):
         n_nodes = tf.shape(a)[-1]
-        
-        # TODO: Try to find a more memory efficient procedure for the absolute 
-        # differences that does not require the creation of a copy of x        
+          
         abs_diff = tf.reduce_sum(tf.math.abs(tf.expand_dims(x, 2) - 
                                              tf.expand_dims(x, 1)), axis = -1)
 

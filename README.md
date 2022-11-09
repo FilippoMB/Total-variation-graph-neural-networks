@@ -1,13 +1,14 @@
 **TODO**
 
+- [ ] update hyperparameters on the paper
+- [ ] put the paper on arxiv
+- [ ] move metrics.py in the parent folder
 - [ ] Docstring in GTVConv and AsymCheegerCut files Spektral
 - [ ] Docstring in GTVConv and AsymCheegerCut files PyG
 - [ ] conda env for pytorch
 - [ ] graph classification in pytorch
-- [ ] report new hyperparameters on the paper
-- [ ] put the paper on arxiv
-- [ ] fix references to the paper
-- [ ] write down citation
+- [ ] fix references in the README
+- [ ] add citation in the readme
 
 # Introduction 
 Implementation in Tensorflow and Pytorch of the Total Variation Graph Neural Network (TVGNN) as presented in the [original paper](https://arxiv.org/).
@@ -76,26 +77,30 @@ This is a supervised with goal of predicting the class of each graph. The GNN rc
 
 ### Tensorflow
 This implementation is based on the [Spektral](https://graphneural.network/) library and follows the [Select-Reduce-Connect](https://graphneural.network/layers/pooling/#srcpool) API.
-To execute the code, first install the conda environment from [tf_environment.yml](tensorflow/tf_environment.yml) as
+To execute the code, first install the conda environment from [tf_environment.yml](tensorflow/tf_environment.yml)
 
     conda env create -f tf_environment.yml
 
 The ``tensorflow/`` folder includes:
 
 - The implementation of the [GTVConv](/tensorflow/GTVConv.py) layer
-- The implementation of the [AsymmetricCheegerCutPool](/tensorflow/AsymCheegerCutPool.py) layer
+- The implementation of the [AsymCheegerCutPool](/tensorflow/AsymCheegerCutPool.py) layer
 - An example script to perform the [clustering](/tensorflow/clustering.py) task
 - An example script to perform the  [classification](/tensorflow/classification.py) task
 
 <img align="left" width="30" height="30" src="https://upload.wikimedia.org/wikipedia/commons/1/10/PyTorch_logo_icon.svg" alt="Pytorch icon">
 
 ### Pytorch
-This implementation is based on the [Pytorch Geometric]() library.
+This implementation is based on the [Pytorch Geometric](https://pytorch-geometric.readthedocs.io/) library. To execute the code, first install the conda environment from [pytorch_environment.yml]()
 
-- [GTVConv]() layer
-- [AsymmetricCheegerCutPool]() layer
-- [Vertex clustering]() example
-- [Graph classification]() example
+    conda env create -f pytorch_environment.yml
+
+The ``pytorch/`` folder includes:
+
+- The implementation of the [GTVConv](/pytorch/GTVConv.py) layer
+- The implementation of the [AsymCheegerCutPool](/pytorch/AsymCheegerCutPool.py) layer
+- An example script to perform the [clustering](/pytorch/clustering.py) task
+- An example script to perform the  [classification](/pytorch/classification.py) task
 
 # Citation
 If you use TVGNN in your research, please consider citing our work as

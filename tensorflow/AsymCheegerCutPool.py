@@ -141,7 +141,7 @@ class AsymCheegerCutPool(SRCPool):
 
         # k-quantile
         idx = tf.cast(tf.math.floor(n_nodes / self.k) + 1, dtype=tf.int32)
-        med = tf.math.top_k(tf.linalg.matrix_transpose(s), # Note: Could probably do this without topk
+        med = tf.math.top_k(tf.linalg.matrix_transpose(s), 
                             k=idx).values[..., -1]
         # Asymmetric l1-norm
         if K.ndim(s) == 2:
