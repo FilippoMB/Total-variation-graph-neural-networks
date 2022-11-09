@@ -2,11 +2,12 @@
 
 - [ ] update hyperparameters on the paper
 - [ ] put the paper on arxiv
-- [ ] move metrics.py in the parent folder
+- [ ] move metrics.py in the parent folder?
 - [ ] Docstring in GTVConv and AsymCheegerCut files Spektral
 - [ ] Docstring in GTVConv and AsymCheegerCut files PyG
 - [ ] conda env for pytorch
-- [ ] graph classification in pytorch
+- [x] graph classification in pytorch
+- [ ] maybe clean a bit classification in pytorch
 - [ ] fix references in the README
 - [ ] add citation in the readme
 
