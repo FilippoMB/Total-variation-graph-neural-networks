@@ -1,14 +1,16 @@
 **TODO**
 
-- [ ] update hyperparameters on the paper
 - [ ] put the paper on arxiv
-- [ ] move metrics.py in the parent folder?
-- [ ] Docstring in GTVConv and AsymCheegerCut files Spektral
-- [ ] Docstring in GTVConv and AsymCheegerCut files PyG
-- [ ] conda env for pytorch
+- [ ] update hyperparameters with the new experiments
+- [ ] avoid having two metrics.py in tensorflow and pytorch folders
+- [ ] Docstring in GTVConv and AsymCheegerCut files 
+- [ ] PR to Spektral (also the dataloader for Bench easy/hard)
+- [ ] Docstring in GTVConv and AsymCheegerCut files 
+- [ ] PR to PyG
+- [ ] conda env (on linux) for pytorch 
 - [x] graph classification in pytorch
-- [ ] maybe clean a bit classification in pytorch
-- [ ] fix references in the README
+- [ ] maybe clean a bit classification.py in pytorch
+- [ ] check/fix references in the README
 - [ ] add citation in the readme
 
 # Introduction 
@@ -52,7 +54,7 @@ where $\mathcal{L}_ \text{GTV}^*$ = $\displaystyle\sum_{k=1}^K\sum_{i=1}^N \sum_
 
 The term $\mathcal{L}_\text{AN}$ encourages the partition to be balanced and is defined as
 
-$$\mathcal{L}_{\text{AN}} = \frac{\beta - \mathcal{L}_\text{AN}^*}{\beta} \in [0, 1],$$
+$$\mathcal{L}_ {\text{AN}} = \frac{\beta - \mathcal{L}^*_ \text{AN}}{\beta} \in [0, 1],$$
 
 where $\mathcal{L}_ \text{AN}^* = \displaystyle\sum^K_{k=1} ||\boldsymbol{s}_ {:,k}$ - $\text{quant}_ \rho (\boldsymbol{s}_ {:,k})||_ {1, \rho}$.
 When $\rho = K-1$, $\beta = N\rho$.
