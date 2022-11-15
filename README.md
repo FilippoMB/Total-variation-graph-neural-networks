@@ -33,7 +33,7 @@ $$\mathbf{X}^{(l+1)}  = \sigma\left[ \left( \mathbf{I} - \delta \mathbf{L}_\Gamm
 where $\sigma$ is a non-lineary, $\mathbf{\Theta}$ are the trainable weights of the layer, and $\delta$ is an hyperparameter. The Laplacian matrix is defined as
 $\mathbf{L}^{(l)}_ \Gamma$ = $\mathbf{D}_ \Gamma - \mathbf{\Gamma}$, where $\mathbf{D}_\Gamma = \text{diag}(\mathbf{\Gamma} \boldsymbol{1})$ and 
 
-$$ [\mathbf{\Gamma}]_{ij} = \frac{a_{ij}}{\texttt{max}\{ \| \boldsymbol{x}_i^{(l)} - \boldsymbol{x}_j^{(l)}  \|_1, \epsilon \}}$$
+$$ [\mathbf{\Gamma}]_ {ij} = \frac{a_ {ij}}{\texttt{max}\{ \| \boldsymbol{x}_i^{(l)} - \boldsymbol{x}_j^{(l)}  \|_1, \epsilon \}}$$
 
 where $a_{ij}$ is the $ij$-th entry of the adjacency matrix, $\boldsymbol{x}_i^{(l)}$ is the feature of vertex $i$ at layer $l$ and $\epsilon$ is a small constant that avoids zero-division.
 
