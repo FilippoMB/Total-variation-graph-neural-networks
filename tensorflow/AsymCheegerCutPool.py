@@ -8,12 +8,32 @@ from spektral.layers.pooling.src import SRCPool
 class AsymCheegerCutPool(SRCPool):
     r"""
     An Asymmetric Cheeger Cut Pooling layer from the paper
-    > [...]{...}
-    > Jonas Berg Hansen and Filippo Bianchi
+    > [Clustering with Total Variation Graph Neural Networks](https://arxiv.org/abs/2211.06218)
+    > Jonas Berg Hansen and Filippo Maria Bianchi
 
     **Mode**: single, batch
 
-    (Equations and stuff ...)
+    This layer learns a soft clustering of the input graph as follows:
+    $$
+    \begin{align}
+        \S &= \textrm{MLP}(\X); \\
+        \X' &= \S^\top \X \\
+        \A' &= \S^\top \A \S; \\
+    \end{align}
+    $$
+    where \(\textrm{MLP}\) is a multi-layer perceptron with softmax output.
+
+    The layer includes two auxiliary loss terms/components:
+    A graph total variation loss given by
+    $$
+        L_\text{GTV} = \frac{1}{2E} \sum_{k=1}^K \sum_{i=1}^N \sum_{j=i}^N a_{i,j} |s_{i,k} - s_{j,k}|,
+    $$
+    where $$E$$ is the number of edges/links, $$K$$ is the number of clusters or output nodes, and $$N$$ is the number of nodes.
+    
+    An asymmetrical norm term given by
+    $$
+        L_\text{AN} = \frac{N(K - 1) - \sum_{k=1}^K ||\s_{:,k} - \textrm{quant}_\rho (\s_{:,k})||_{1, \rho}}{N(K-1)},
+    $$
 
     The layer can be used without a supervised loss to compute node clustering by
     minimizing the two auxiliary losses.
@@ -21,7 +41,7 @@ class AsymCheegerCutPool(SRCPool):
     **Input**
 
     - Node features of shape `(batch, n_nodes_in, n_node_features)`;
-    - Binary adjacency matrix of shape `(batch, n_nodes_in, n_nodes_in)`;
+    - Adjacency matrix of shape `(batch, n_nodes_in, n_nodes_in)`;
 
     **Output**
 
@@ -37,9 +57,9 @@ class AsymCheegerCutPool(SRCPool):
     - `mlp_activation`: activation for the MLP layers;
     - `return_selection`: boolean, whether to return the selection matrix;
     - `use_bias`: use bias in the MLP;
-    - `totvar_coeff`: Coefficient for total variation loss component;
-    - `balance_coeff`: Coefficient for asymmetric $$l_1$$-norm loss component;
-    - `softmax_temparture`: Temperature parameter for softmax activation at the end of the MLP;
+    - `totvar_coeff`: coefficient for graph total variation loss component;
+    - `balance_coeff`: coefficient for asymmetric norm loss component;
+    - `softmax_temparture`: temperature parameter for softmax activation at the end of the MLP;
     - `kernel_initializer`: initializer for the weights of the MLP;
     - `bias_regularizer`: regularization applied to the bias of the MLP;
     - `kernel_constraint`: constraint applied to the weights of the MLP;

@@ -7,8 +7,26 @@ from torch_geometric.nn.resolver import activation_resolver
 
 
 class AsymCheegerCutPool(torch.nn.Module):
-    """
-    Placeholder
+    r"""
+    The asymmetric cheeger cut pooling layer from the `"Clustering with Total Variation Graph Neural Networks"
+    <https://arxiv.org/abs/2211.06218>`_ paper
+
+    (Equations and such)
+
+    Args:
+        k (int): Number of clusters or output nodes
+        mlp_channels (int, list of int): Number of hidden units for each hidden layer in
+            the MLP used to compute cluster assignments. First integer must match the number of input channels 
+            of input channels. 
+        mlp_activation (any): Activation function between hidden layers of the MLP. Must be compatible
+            with `torch_geometric.nn.resolver`.
+        return_selection (bool): Whether to return selection matrix. Cannot not 
+            be False if `return_pooled_graph` is False. (default: :obj:`False`)
+        return_pooled_graph (bool): Whether to return pooled node features and 
+            adjacency. Cannot be False if `return_selection` is False. (default: :obj:`True`)
+        bias (bool): whether to add a bias term to the MLP layers. (default: :obj:`True`)
+        totvar_coeff (float): Coefficient for graph total variation loss component. (default: :obj:`1.0`)
+        balance_coeff (float): Coefficient for asymmetric norm loss component. (default: :obj:`1.0`)
     """
 
     def __init__(self, 

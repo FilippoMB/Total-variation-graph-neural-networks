@@ -37,8 +37,22 @@ def gtv_adj_weights(edge_index, edge_weight, num_nodes=None, flow="source_to_tar
 
 
 class GTVConv(MessagePassing):
-    """
-    Placeholder
+    r"""
+    The GTVConv layer from the `"Clustering with Total Variation Graph Neural Networks"
+    <https://arxiv.org/abs/2211.06218>`_ paper
+
+    (Equations and such)
+
+    Args:
+        in_channels (int): Size of each input sample
+        out_channels (int): Size of each output sample.
+        bias (bool): If set to :obj:`False`, the layer will not learn
+            an additive bias. (default: :obj:`True`)
+        delta_coeff (float): Step size for gradient descent of GTV (default: :obj:`1.0`)
+        eps (float): Small number used to numerically stabilize the computation of 
+            new adjacency weights. (default: :obj:`1e-3`)
+        act (any): Activation function. Must be compatible with 
+            `torch_geometric.nn.resolver`.
     """
     def __init__(self, in_channels: int, out_channels: int, bias: bool = True, 
                  delta_coeff: float = 1., eps: float = 1e-3, act = "relu"):

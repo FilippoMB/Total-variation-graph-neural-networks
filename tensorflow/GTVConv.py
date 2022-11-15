@@ -5,15 +5,53 @@ from spektral.layers.convolutional.conv import Conv
 
 
 class GTVConv(Conv):
-    """
-    Placeholder
+    r"""
+    A graph total variation convolutional layer (GTVConv) from the paper
+
+    > [Clustering with Total Variation Graph Neural Networks](https://arxiv.org/abs/2211.06218)
+    > Jonas Berg Hansen and Filippo Maria Bianchi
+
+    **Mode**: single, batch
+
+    This layer computes
+    $$
+        \X' = \sigma\left[\left(\I - \delta{\hat{\Lb}_\mathbf{\Gamma}}\right) \X \W \right]
+    $$
+
+    (add L_Gamma definition)
+
+    **Input**
+
+    - Node features of shape `(batch, n_nodes, n_node_features)`;
+    - Adjacency matrix of shape `(batch, n_nodes, n_nodes)`;
+
+    **Output**
+
+    - Node features with the same shape as the input, but with the last
+    dimension changed to `channels`.
+
+    **Arguments**
+
+    - `channels`: number of output channels;
+    - `delta_coeff`: step size for gradient descent of GTV
+    - `epsilon`: small number used to numerically stabilize the computation of new adjacency weights
+    - `activation`: activation function;
+    - `use_bias`: bool, add a bias vector to the output;
+    - `kernel_initializer`: initializer for the weights;
+    - `bias_initializer`: initializer for the bias vector;
+    - `kernel_regularizer`: regularization applied to the weights;
+    - `bias_regularizer`: regularization applied to the bias vector;
+    - `activity_regularizer`: regularization applied to the output;
+    - `kernel_constraint`: constraint applied to the weights;
+    - `bias_constraint`: constraint applied to the bias vector.
+
     """
 
     def __init__(
         self,
         channels,
-        delta_coeff=1.,
-        epsilon=1e-3,
+        delta_coeff=1., # TODO: consider renaming this argument to something that says more about its function
+        epsilon=1e-3, # TODO: Consider renaming this one as well
         activation=None,
         use_bias=True,
         kernel_initializer="he_normal",
