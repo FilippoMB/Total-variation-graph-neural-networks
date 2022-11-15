@@ -6,8 +6,44 @@ from spektral.layers import ops
 from spektral.layers.pooling.src import SRCPool
 
 class AsymCheegerCutPool(SRCPool):
-    """
-    Placeholder
+    r"""
+    An Asymmetric Cheeger Cut Pooling layer from the paper
+    > [...]{...}
+    > Jonas Berg Hansen and Filippo Bianchi
+
+    **Mode**: single, batch
+
+    (Equations and stuff ...)
+
+    The layer can be used without a supervised loss to compute node clustering by
+    minimizing the two auxiliary losses.
+
+    **Input**
+
+    - Node features of shape `(batch, n_nodes_in, n_node_features)`;
+    - Binary adjacency matrix of shape `(batch, n_nodes_in, n_nodes_in)`;
+
+    **Output**
+
+    - Reduced node features of shape `(batch, n_nodes_out, n_node_features)`;
+    - If `return_selection=True`, the selection matrix of shape 
+    `(batch, n_nodes_in, n_nodes_out)`.
+
+    **Arguments**
+    - `k`: number of output nodes;
+    - `mlp_hidden`: list of integers, number of hidden units for each hidden layer in
+    the MLP used to compute cluster assignments (if `None`, the MLP has only one output
+    layer);
+    - `mlp_activation`: activation for the MLP layers;
+    - `return_selection`: boolean, whether to return the selection matrix;
+    - `use_bias`: use bias in the MLP;
+    - `totvar_coeff`: Coefficient for total variation loss component;
+    - `balance_coeff`: Coefficient for asymmetric $$l_1$$-norm loss component;
+    - `softmax_temparture`: Temperature parameter for softmax activation at the end of the MLP;
+    - `kernel_initializer`: initializer for the weights of the MLP;
+    - `bias_regularizer`: regularization applied to the bias of the MLP;
+    - `kernel_constraint`: constraint applied to the weights of the MLP;
+    - `bias_constraint`: constraint applied to the bias of the MLP;
     """
 
     def __init__(self,
@@ -18,7 +54,7 @@ class AsymCheegerCutPool(SRCPool):
                  use_bias=True,
                  totvar_coeff=1.0,
                  balance_coeff=1.0,
-                 softmax_temperature=1.0,
+                 softmax_temperature=1.0, # TODO: Consider removing this argument (currently not used)
                  kernel_initializer="glorot_uniform",
                  bias_initializer="zeros",
                  kernel_regularizer=None,
