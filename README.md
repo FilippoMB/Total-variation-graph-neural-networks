@@ -1,6 +1,6 @@
 **TODO**
 
-- [ ] put the paper on arxiv
+- [x] put the paper on arxiv
 - [ ] update hyperparameters with the new experiments
 - [ ] avoid having two metrics.py in tensorflow and pytorch folders
 - [ ] Docstring in GTVConv and AsymCheegerCut files 
@@ -11,7 +11,7 @@
 - [x] graph classification in pytorch
 - [ ] maybe clean a bit classification.py in pytorch
 - [ ] check/fix references in the README
-- [ ] add citation in the readme
+- [x] add citation in the readme
 
 # Introduction 
 Implementation in Tensorflow and Pytorch of the Total Variation Graph Neural Network (TVGNN) as presented in the [original paper](https://arxiv.org/abs/2211.06218).
