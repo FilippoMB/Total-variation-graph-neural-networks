@@ -1,3 +1,6 @@
+import sys
+sys.path.insert(1, '../utils')
+
 import os.path as osp
 import torch
 from torch import Tensor

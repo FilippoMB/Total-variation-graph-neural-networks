@@ -2,7 +2,7 @@
 
 - [x] put the paper on arxiv
 - [ ] update hyperparameters with the new experiments
-- [ ] avoid having two metrics.py in tensorflow and pytorch folders
+- [x] avoid having two metrics.py in tensorflow and pytorch folders
 - [ ] Docstring in GTVConv and AsymCheegerCut files 
 - [ ] PR to Spektral (also the dataloader for Bench easy/hard)
 - [ ] Docstring in GTVConv and AsymCheegerCut files 

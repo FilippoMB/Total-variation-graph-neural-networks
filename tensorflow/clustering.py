@@ -1,3 +1,6 @@
+import sys
+sys.path.insert(1, '../utils')
+
 import numpy as np
 from tqdm import tqdm
 from sklearn.metrics.cluster import normalized_mutual_info_score
