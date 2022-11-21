@@ -9,7 +9,7 @@
 - [ ] PR to PyG
 - [ ] conda env (on linux) for pytorch 
 - [x] graph classification in pytorch
-- [ ] maybe clean a bit classification.py in pytorch
+- [x] maybe clean a bit classification.py in pytorch
 - [ ] check/fix references in the README
 - [x] add citation in the readme
 
