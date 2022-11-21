@@ -23,8 +23,8 @@ delta_coeff = 2.0
 mlp_hidden_layers = 1
 mlp_hidden_channels = 32
 mlp_activation = "relu"
-totvar_coeff=0.5
-balance_coeff=0.5
+totvar_coeff = 0.5
+balance_coeff = 0.5
 
 batch_size = 16
 l2_reg_val = 0

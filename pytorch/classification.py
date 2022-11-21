@@ -15,24 +15,30 @@ from AsymCheegerCutPool import AsymCheegerCutPool
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-# Parameters
-dataset_id="Mutagenicity"
-n_folds=5
-n_runs=3
-epochs=500
-batch_size=8
-learning_rate=1e-3
-l2_reg_val=0.0001
-es_patience=50
-mp_channels=16
-mp_layers=2
-mp_activation="relu"
-delta_coeff=3.167
-mlp_hidden_channels=64
-mlp_hidden_layers=3
-mlp_activation="relu"
-totvar_coeff=0.5032
-balance_coeff=1.421
+############################################################################
+# CONFIG
+############################################################################
+
+dataset_id = "PROTEINS"
+
+mp_layers = 1
+mp_channels = 32
+mp_activation = "relu"
+delta_coeff = 2.0
+
+mlp_hidden_layers = 1
+mlp_hidden_channels = 32
+mlp_activation = "relu"
+totvar_coeff = 0.5
+balance_coeff = 0.5
+
+n_folds = 5
+n_runs = 3
+epochs = 100
+batch_size = 16
+learning_rate = 5e-4
+l2_reg_val = 0
+es_patience = 10
  
 results = {"acc_scores": []}
 
@@ -42,7 +48,7 @@ results = {"acc_scores": []}
 print("Processing dataset: {}".format(dataset_id))
 
 max_degrees = {"REDDIT-BINARY": 3062, "COLLAB": 491}
-if dataset_id in ["REDDIT-BINARY"]:
+if dataset_id in list(max_degrees.keys()):
     pre_transform = transforms.OneHotDegree(max_degrees[dataset_id])
 else:
     pre_transform = None
@@ -70,7 +76,7 @@ for train_index, test_index in skf.split(X=np.zeros(len(dataset)), y=full_label_
     dataset_te = dataset[torch.tensor(test_index).long()]
 
     for run in range(n_runs):
-        loader_tr = DataLoader(dataset_tr, batch_size=batch_size, shuffle=True) # TODO: Check if mask should also be applied, and if so, where?
+        loader_tr = DataLoader(dataset_tr, batch_size=batch_size, shuffle=True)
         loader_va = DataLoader(dataset_va, batch_size=batch_size, shuffle=False)
         loader_te = DataLoader(dataset_te, batch_size=batch_size, shuffle=False)
 
@@ -153,7 +159,7 @@ for train_index, test_index in skf.split(X=np.zeros(len(dataset)), y=full_label_
 
                 x = self.mp3(x, edge_index=adj, edge_weight=None)
 
-                x = x.mean(dim=1) #Old: global_mean_pool(x, batch=None)
+                x = x.mean(dim=1)
 
                 x = self.output_layer(x)
 
