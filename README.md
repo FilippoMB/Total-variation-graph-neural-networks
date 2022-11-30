@@ -5,12 +5,11 @@
 - [x] avoid having two metrics.py in tensorflow and pytorch folders
 - [ ] Docstring in GTVConv and AsymCheegerCut files 
 - [ ] PR to Spektral (also the dataloader for Bench easy/hard)
-- [ ] Docstring in GTVConv and AsymCheegerCut files 
 - [ ] PR to PyG
-- [ ] conda env (on linux) for pytorch 
+- [x] conda env (on linux) for pytorch 
 - [x] graph classification in pytorch
 - [x] maybe clean a bit classification.py in pytorch
-- [ ] check/fix references in the README
+- [x] check/fix references in the README
 - [x] add citation in the readme
 
 # Introduction 
@@ -94,7 +93,7 @@ The ``tensorflow/`` folder includes:
 <img align="left" width="30" height="30" src="https://upload.wikimedia.org/wikipedia/commons/1/10/PyTorch_logo_icon.svg" alt="Pytorch icon">
 
 ### Pytorch
-This implementation is based on the [Pytorch Geometric](https://pytorch-geometric.readthedocs.io/) library. To execute the code, first install the conda environment from [pytorch_environment.yml]()
+This implementation is based on the [Pytorch Geometric](https://pytorch-geometric.readthedocs.io/) library. To execute the code, first install the conda environment from [pytorch_environment.yml](pytorch/pytorch_environment.yml)
 
     conda env create -f pytorch_environment.yml
 
