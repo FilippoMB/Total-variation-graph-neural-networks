@@ -93,7 +93,6 @@ class ClassificationModel(torch.nn.Module):
         x = self.mp3(x, edge_index=adj, edge_weight=None)
         x = x.mean(dim=1) # global mean pooling
         x = self.output_layer(x)
-        x = torch.softmax(x, -1)
 
         return x, tv1 + tv2, bal1 + bal2
 
