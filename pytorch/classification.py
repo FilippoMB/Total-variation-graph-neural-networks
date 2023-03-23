@@ -29,8 +29,6 @@ mlp_activation = "relu"
 totvar_coeff = 0.5
 balance_coeff = 0.5
 
-n_folds = 5
-n_runs = 3
 epochs = 100
 batch_size = 16
 learning_rate = 5e-4
