@@ -18,8 +18,6 @@ class GTVConv(Conv):
         \X' = \sigma\left[\left(\I - \delta{\hat{\Lb}_\mathbf{\Gamma}}\right) \X \W \right]
     $$
 
-    (add L_Gamma definition)
-
     **Input**
 
     - Node features of shape `(batch, n_nodes, n_node_features)`;

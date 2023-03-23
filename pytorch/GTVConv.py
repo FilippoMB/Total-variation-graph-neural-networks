@@ -41,8 +41,6 @@ class GTVConv(MessagePassing):
     The GTVConv layer from the `"Clustering with Total Variation Graph Neural Networks"
     <https://arxiv.org/abs/2211.06218>`_ paper
 
-    (Equations and such)
-
     Args:
         in_channels (int): Size of each input sample
         out_channels (int): Size of each output sample.
