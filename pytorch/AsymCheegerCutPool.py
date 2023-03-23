@@ -11,8 +11,6 @@ class AsymCheegerCutPool(torch.nn.Module):
     The asymmetric cheeger cut pooling layer from the `"Clustering with Total Variation Graph Neural Networks"
     <https://arxiv.org/abs/2211.06218>`_ paper
 
-    (Equations and such)
-
     Args:
         k (int): Number of clusters or output nodes
         mlp_channels (int, list of int): Number of hidden units for each hidden layer in
