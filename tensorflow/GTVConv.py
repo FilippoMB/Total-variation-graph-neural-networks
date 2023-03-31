@@ -48,8 +48,8 @@ class GTVConv(Conv):
     def __init__(
         self,
         channels,
-        delta_coeff=1., # TODO: consider renaming this argument to something that says more about its function
-        epsilon=1e-3, # TODO: Consider renaming this one as well
+        delta_coeff=1.,
+        epsilon=1e-3,
         activation=None,
         use_bias=True,
         kernel_initializer="he_normal",

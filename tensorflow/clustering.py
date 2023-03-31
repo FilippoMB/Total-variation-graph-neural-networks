@@ -8,6 +8,7 @@ import tensorflow as tf
 from tensorflow.keras import Model
 from spektral.utils.sparse import sp_matrix_to_sp_tensor
 from spektral.datasets.citation import Citation
+from spektral.datasets import DBLP
 from GTVConv import GTVConv
 from AsymCheegerCutPool import AsymCheegerCutPool
 from metrics import cluster_acc
@@ -21,19 +22,22 @@ dataset_id = "cora"
 mp_channels = 512
 mp_layers = 2
 mp_activation = "elu"
+delta_coeff = 0.311
 mlp_hidden_channels = 256
 mlp_hidden_layers = 1
 mlp_activation = "relu"
-delta_coeff = 0.311
 totvar_coeff=0.785
 balance_coeff=0.514
 learning_rate = 1e-3
-epochs = 1000
+epochs = 500
 
 ################################
 # LOAD DATASET
 ################################
-dataset = Citation(dataset_id, normalize_x=True)
+if dataset_id in ["cora", "citeseer", "pubmed"]:
+    dataset = Citation(dataset_id, normalize_x=True)
+elif dataset_id == "dblp":
+    dataset = DBLP(normalize_x=True)
 X = dataset.graphs[0].x
 A = dataset.graphs[0].a
 Y = dataset.graphs[0].y
