@@ -52,6 +52,8 @@ class AsymCheegerCutPool(torch.nn.Module):
             self.mlp.append(Linear(in_channels, channels, bias=bias))
             in_channels = channels
             self.mlp.append(act)
+
+
         self.mlp.append(Linear(in_channels, k))
         self.k = k
         self.return_selection = return_selection
@@ -59,6 +61,13 @@ class AsymCheegerCutPool(torch.nn.Module):
         self.totvar_coeff = totvar_coeff
         self.balance_coeff = balance_coeff
 
+        self.reset_parameters()
+
+    def reset_parameters(self):
+        for layer in self.mlp:
+            if isinstance(layer, Linear):
+                torch.nn.init.xavier_uniform(layer.weight)
+                torch.nn.init.zeros_(layer.bias)
 
     def forward(
         self,
