@@ -13,7 +13,7 @@ TVGNN consists of the GTVConv layer and the AsymmetricCheegerCut layer.
 ### GTVConv
 The GTVConv layer is a *message-passing* layer that minimizes the $L_1$-norm of the features in adjacent nodes in the graphs. The $l$-th GTVConv layer updates the node features as
 
-$$\mathbf{X}^{(l+1)}  = \sigma\left[ \left( \mathbf{I} - \delta \mathbf{L}_\Gamma^{(l)}  \right) \mathbf{X}^{(l)}\mathbf{\Theta}  \right] $$ 
+$$\mathbf{X}^{(l+1)}  = \sigma\left[ \left( \mathbf{I} - 2\delta \mathbf{L}_\Gamma^{(l)}  \right) \mathbf{X}^{(l)}\mathbf{\Theta}  \right] $$ 
 
 where $\sigma$ is a non-lineary, $\mathbf{\Theta}$ are the trainable weights of the layer, and $\delta$ is an hyperparameter. The Laplacian matrix is defined as
 $\mathbf{L}^{(l)}_ \Gamma$ = $\mathbf{D}_ \Gamma - \mathbf{\Gamma}$, where $\mathbf{D}_\Gamma = \text{diag}(\mathbf{\Gamma} \boldsymbol{1})$ and 
