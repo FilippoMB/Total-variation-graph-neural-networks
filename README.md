@@ -1,5 +1,6 @@
-# Introduction 
-Implementation in Tensorflow and Pytorch of the Total Variation Graph Neural Network (TVGNN) as presented in the [original paper](https://arxiv.org/abs/2211.06218).
+[![arXiv](https://img.shields.io/badge/arXiv-2211.06218-b31b1b.svg?style=flat-square)](https://arxiv.org/abs/2211.06218)
+
+Tensorflow and Pytorch implementation of the Total Variation Graph Neural Network (TVGNN) as presented in the [original paper](https://arxiv.org/abs/2211.06218).
 
 The TVGNN model can be used to **cluster** the vertices of an annotated graph, by accounting both for the graph topology and the vertex features. Compared to other GNNs for clustering, TVGNN creates *sharp* cluster assignments that better approximate the optimal (in the minimum cut sense) partition.
 
@@ -93,11 +94,13 @@ The ``pytorch/`` folder includes:
 # Citation
 If you use TVGNN in your research, please consider citing our work as
 
-    @misc{https://doi.org/10.48550/arxiv.2211.06218,
-      doi = {10.48550/ARXIV.2211.06218},
-      author = {Hansen, Jonas Berg and Bianchi, Filippo Maria},
-      title = {Clustering with Total Variation Graph Neural Networks},
-      publisher = {arXiv},
-      year = {2022},
-    }
-
+````bibtex
+@inproceedings{hansen2023tvgnn,
+    title={Total Variation Graph Neural Networks},
+    author={Hansen, Jonas Berg and Bianchi, Filippo Maria},
+    booktitle={Proceedings of the 40th international conference on Machine learning},
+    pages={},
+    year={2023},
+    organization={ACM}
+}
+````
