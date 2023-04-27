@@ -47,6 +47,7 @@ data = data.to(device)
 ############################################################################
 # MODEL
 ############################################################################
+
 class Net(torch.nn.Module):
 
     def __init__(self):
@@ -66,7 +67,7 @@ class Net(torch.nn.Module):
         # Pooling layer
         self.pool = AsymCheegerCutPool(
             dataset.num_classes,
-            mlp_channels=[mp_channels] + [mlp_hidden_channels for _ in range(mlp_hidden_layers-1)],
+            mlp_channels=[mp_channels] + [mlp_hidden_channels for _ in range(mlp_hidden_layers)],
             mlp_activation=mlp_activation,
             totvar_coeff=totvar_coeff,
             balance_coeff=balance_coeff,
@@ -85,7 +86,7 @@ class Net(torch.nn.Module):
         return s.squeeze(0), tv_loss, bal_loss
 
 model = Net().to(device)
-optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
+optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate, eps=1e-7)
 
 ############################################################################
 # TRAINING

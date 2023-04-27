@@ -55,7 +55,7 @@ class GTVConv(MessagePassing):
     def __init__(self, in_channels: int, out_channels: int, bias: bool = True, 
                  delta_coeff: float = 1., eps: float = 1e-3, act = "relu"):
         super().__init__(aggr='add', flow="target_to_source")
-        self.lin = Linear(in_channels, out_channels, bias=False) 
+        self.weight = Parameter(torch.Tensor(in_channels, out_channels)) 
 
         self.delta_coeff = delta_coeff
         self.eps = eps
@@ -70,13 +70,13 @@ class GTVConv(MessagePassing):
         self.reset_parameters()
 
     def reset_parameters(self):
-        self.lin.reset_parameters()
+        torch.nn.init.kaiming_normal_(self.weight)
         zeros(self.bias)
 
     def forward(self, x: Tensor, edge_index: Adj, edge_weight: OptTensor = None, mask=None) -> Tensor:
 
         # Update node features
-        x = self.lin(x) 
+        x = x @ self.weight
 
         # Check if a dense adjacency is provided
         if isinstance(edge_index, Tensor) and edge_index.size(-1) == edge_index.size(-2):

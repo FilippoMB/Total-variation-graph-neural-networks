@@ -74,7 +74,6 @@ class AsymCheegerCutPool(SRCPool):
                  use_bias=True,
                  totvar_coeff=1.0,
                  balance_coeff=1.0,
-                 softmax_temperature=1.0, # TODO: Consider removing this argument (currently not used)
                  kernel_initializer="glorot_uniform",
                  bias_initializer="zeros",
                  kernel_regularizer=None,
@@ -89,7 +88,6 @@ class AsymCheegerCutPool(SRCPool):
             mlp_activation=mlp_activation,
             return_selection=return_selection,
             use_bias=use_bias,
-            softmax_temperature=softmax_temperature,
             kernel_initializer=kernel_initializer,
             bias_initializer=bias_initializer,
             kernel_regularizer=kernel_regularizer,
