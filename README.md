@@ -12,12 +12,11 @@ The TVGNN model can also be used to implement **graph pooling** in a deep GNN ar
 TVGNN consists of the GTVConv layer and the AsymmetricCheegerCut layer.
 
 ### GTVConv
-The GTVConv layer is a *message-passing* layer that minimizes the $L_1$-norm of the features in adjacent nodes in the graphs. The $l$-th GTVConv layer updates the node features as
+The GTVConv layer is a *message-passing* layer that minimizes the $L_1$-norm of the difference between features of adjacent nodes. The $l$-th GTVConv layer updates the node features as
 
 $$\mathbf{X}^{(l+1)}  = \sigma\left[ \left( \mathbf{I} - 2\delta \mathbf{L}_\Gamma^{(l)}  \right) \mathbf{X}^{(l)}\mathbf{\Theta}  \right] $$ 
 
-where $\sigma$ is a non-lineary, $\mathbf{\Theta}$ are the trainable weights of the layer, and $\delta$ is an hyperparameter. The Laplacian matrix is defined as
-$\mathbf{L}^{(l)}_ \Gamma$ = $\mathbf{D}^{(l)}_ \Gamma - \mathbf{\Gamma}^{(l)}$, where $\mathbf{D}_\Gamma = \text{diag}(\mathbf{\Gamma} \boldsymbol{1})$ and 
+where $\sigma$ is a non-lineary, $\mathbf{\Theta}$ are the trainable weights of the layer, and $\delta$ is an hyperparameter. $\mathbf{L}^{(l)}_ \Gamma$ is a Laplacian defined as $\mathbf{L}^{(l)}_ \Gamma$ = $\mathbf{D}^{(l)}_ \Gamma - \mathbf{\Gamma}^{(l)}$, where $\mathbf{D}_\Gamma = \text{diag}(\mathbf{\Gamma} \boldsymbol{1})$ and 
 
 $$ [\mathbf{\Gamma}]^{(l)}_ {ij} = \frac{a_ {ij}}{\texttt{max}\{ \lVert \boldsymbol{x}_i^{(l)} - \boldsymbol{x}_j^{(l)}  \rVert_1, \epsilon \}}$$
 
@@ -29,7 +28,7 @@ The AsymCheegerCut is a *graph pooling* layer that internally contains an $\text
 - an unsupervised loss $\mathcal{L} = \alpha_1 \mathcal{L}_ \text{GTV} + \alpha_2 \mathcal{L}_ \text{AN}$, where $\alpha_1$ and $\alpha_2$ are two hyperparameters,
 - the adjacency matrix and the vertex features of a coarsened graph
 
-$$\mathbf{A}^\text{pool} = \mathbf{S}^T \tilde{\mathbf{A}} \mathbf{S} \in\mathbb{R}^{K\times K}; \, \mathbf{X}^\text{pool}=\mathbf{S}^T\mathbf{X} \in\mathbb{R}^{K\times F}.
+$$\mathbf{A}^\text{pool} = \mathbf{S}^T \tilde{\mathbf{A}} \mathbf{S} \in\mathbb{R}^{K\times K}; \\ \mathbf{X}^\text{pool}=\mathbf{S}^T\mathbf{X} \in\mathbb{R}^{K\times F}.
 $$
 
 The term $\mathcal{L}_ \text{GTV}$ in the loss minimizes the graph total variation of the cluster assignments $\mathbf{S}$ and is defined as
@@ -43,8 +42,8 @@ The term $\mathcal{L}_\text{AN}$ encourages the partition to be balanced and is 
 $$\mathcal{L}_ {\text{AN}} = \frac{\beta - \mathcal{L}^*_ \text{AN}}{\beta} \in [0, 1],$$
 
 where $\mathcal{L}_ \text{AN}^* = \displaystyle\sum^K_{k=1} ||\boldsymbol{s}_ {:,k}$ - $\text{quant}_ \rho (\boldsymbol{s}_ {:,k})||_ {1, \rho}$.
-When $\rho = K-1$, $\beta = N\rho$.
-When $\rho$ takes different values, $\beta = N\rho\min(1, K/(\rho+1))$. 
+When $\rho = K-1$, then $\beta = N\rho$.
+When $\rho$ takes different values, then $\beta = N\rho\min(1, K/(\rho+1))$. 
 $\text{quant}_ \rho(\boldsymbol{s}_ k)$ denotes the $\rho$-quantile of $\boldsymbol{s}_ k$ and $||\cdot||_ {1,\rho}$ denotes an asymmetric $\ell_1$ norm, which for a vector $\boldsymbol{x} \in \mathbb{R}^{N\times 1}$ is $||\boldsymbol{x}||_ {1,\rho}$ = $\displaystyle\sum^N_{i=1} |x_{i}|_ \rho$, where $|x_i|_ \rho = \rho x_i$ if $x_i\geq 0$ and $|x_i|_ \rho = -x_i$ if  $x_i < 0$. 
 
 # Downstream tasks
