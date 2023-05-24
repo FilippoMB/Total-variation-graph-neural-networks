@@ -1,3 +1,4 @@
+[![ICML](https://img.shields.io/badge/ICML-2023-blue)](#)
 [![arXiv](https://img.shields.io/badge/arXiv-2211.06218-b31b1b.svg?style=flat-square)](https://arxiv.org/abs/2211.06218)
 
 Tensorflow and Pytorch implementation of the Total Variation Graph Neural Network (TVGNN) as presented in the [original paper](https://arxiv.org/abs/2211.06218).
