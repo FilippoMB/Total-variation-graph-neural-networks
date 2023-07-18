@@ -1,5 +1,7 @@
-[![ICML](https://img.shields.io/badge/ICML-2023-blue)](#)
-[![arXiv](https://img.shields.io/badge/arXiv-2211.06218-b31b1b.svg?style=flat-square)](https://arxiv.org/abs/2211.06218)
+[![ICML](https://img.shields.io/badge/ICML-2023-blue)](https://icml.cc/virtual/2023/poster/24747)
+[![arXiv](https://img.shields.io/badge/arXiv-2211.06218-b31b1b.svg)](https://arxiv.org/abs/2211.06218)
+[![Poster](https://img.shields.io/badge/%E2%87%A9-Poster-orange.svg)](#)
+[![Video](https://img.shields.io/badge/Presentation-%23FF0000.svg?logo=YouTube&logoColor=white)](https://youtu.be/Dyb1YJOez8w)
 
 Tensorflow and Pytorch implementation of the Total Variation Graph Neural Network (TVGNN) as presented in the [original paper](https://arxiv.org/abs/2211.06218).
 
@@ -90,6 +92,16 @@ The ``pytorch/`` folder includes:
 - The implementation of the [AsymCheegerCutPool](/pytorch/AsymCheegerCutPool.py) layer
 - An example script to perform the [clustering](/pytorch/clustering.py) task
 - An example script to perform the  [classification](/pytorch/classification.py) task
+
+<img align="left" width="28" height="30" src="https://github.com/danielegrattarola/spektral/blob/master/docs/img/ghost_dark.svg" alt="Tensorflow icon">
+
+### Spektral
+
+TVGNN is now available on Spektral:
+
+- [GTVConv](https://graphneural.network/layers/convolution/#gtvconv) layer,
+- [AsymCheegerCutPool](https://graphneural.network/layers/pooling/#asymcheegercutpool) layer,
+- [Example script](https://github.com/danielegrattarola/spektral/blob/master/examples/other/node_clustering_tvgnn.py) to perform node clustering with TVGNN.
 
 # Citation
 If you use TVGNN in your research, please consider citing our work as
