@@ -1,6 +1,6 @@
 [![ICML](https://img.shields.io/badge/ICML-2023-blue)](https://icml.cc/virtual/2023/poster/24747)
 [![arXiv](https://img.shields.io/badge/arXiv-2211.06218-b31b1b.svg)](https://arxiv.org/abs/2211.06218)
-[![Poster](https://img.shields.io/badge/%E2%87%A9-Poster-orange.svg)](#)
+[![Poster](https://img.shields.io/badge/%E2%87%A9-Poster-%23228B22.svg)](https://github.com/FilippoMB/Total-variation-graph-neural-networks/blob/main/tvgnn_poster.pdf)
 [![Video](https://img.shields.io/badge/Presentation-%23FF0000.svg?logo=YouTube&logoColor=white)](https://youtu.be/Dyb1YJOez8w)
 
 Tensorflow and Pytorch implementation of the Total Variation Graph Neural Network (TVGNN) as presented in the [original paper](https://arxiv.org/abs/2211.06218).
