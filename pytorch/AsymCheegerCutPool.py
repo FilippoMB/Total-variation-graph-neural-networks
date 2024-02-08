@@ -12,32 +12,32 @@ class AsymCheegerCutPool(torch.nn.Module):
     <https://arxiv.org/abs/2211.06218>`_ paper.
 
     Args:
-        k (int): 
-            Number of clusters or output nodes 
-        mlp_channels (int, list of int): 
-            Number of hidden units for each hidden layer in the MLP used to 
-            compute cluster assignments. First integer must match the number 
+        k (int):
+            Number of clusters or output nodes
+        mlp_channels (int, list of int):
+            Number of hidden units for each hidden layer in the MLP used to
+            compute cluster assignments. First integer must match the number
             of input channels.
-        mlp_activation (any): 
-            Activation function between hidden layers of the MLP. 
+        mlp_activation (any):
+            Activation function between hidden layers of the MLP.
             Must be compatible with `torch_geometric.nn.resolver`.
-        return_selection (bool): 
-            Whether to return selection matrix. Cannot not  be False 
+        return_selection (bool):
+            Whether to return selection matrix. Cannot not  be False
             if `return_pooled_graph` is False. (default: :obj:`False`)
-        return_pooled_graph (bool): 
-            Whether to return pooled node features and adjacency. 
+        return_pooled_graph (bool):
+            Whether to return pooled node features and adjacency.
             Cannot be False if `return_selection` is False. (default: :obj:`True`)
-        bias (bool): 
+        bias (bool):
             whether to add a bias term to the MLP layers. (default: :obj:`True`)
-        totvar_coeff (float): 
+        totvar_coeff (float):
             Coefficient for graph total variation loss component. (default: :obj:`1.0`)
-        balance_coeff (float): 
+        balance_coeff (float):
             Coefficient for asymmetric norm loss component. (default: :obj:`1.0`)
     """
 
-    def __init__(self, 
-                 k: int, 
-                 mlp_channels: Union[int, List[int]], 
+    def __init__(self,
+                 k: int,
+                 mlp_channels: Union[int, List[int]],
                  mlp_activation="relu",
                  return_selection: bool = False,
                  return_pooled_graph: bool = True,
@@ -85,16 +85,16 @@ class AsymCheegerCutPool(torch.nn.Module):
     ) -> Tuple[Tensor, Tensor, Tensor, Tensor, Tensor, Tensor]:
         r"""
         Args:
-            x (Tensor): 
-                Node feature tensor :math:`\mathbf{X} \in \mathbb{R}^{B \times N \times F}` 
+            x (Tensor):
+                Node feature tensor :math:`\mathbf{X} \in \mathbb{R}^{B \times N \times F}`
                 with batch-size :math:`B`, (maximum) number of nodes :math:`N` for each graph,
                 and feature dimension :math:`F`. Note that the cluster assignment matrix
                 :math:`\mathbf{S} \in \mathbb{R}^{B \times N \times C}` is
                 being created within this method.
-            adj (Tensor): 
+            adj (Tensor):
                 Adjacency tensor :math:`\mathbf{A} \in \mathbb{R}^{B \times N \times N}`.
-            mask (BoolTensor, optional): 
-                Mask matrix :math:`\mathbf{M} \in {\{ 0, 1 \}}^{B \times N}` 
+            mask (BoolTensor, optional):
+                Mask matrix :math:`\mathbf{M} \in {\{ 0, 1 \}}^{B \times N}`
                 indicating the valid nodes for each graph. (default: :obj:`None`)
 
         :rtype: (:class:`Tensor`, :class:`Tensor`, :class:`Tensor`,
@@ -115,11 +115,11 @@ class AsymCheegerCutPool(torch.nn.Module):
         # Pooled features and adjacency
         if self.return_pooled_graph:
             x_pool = torch.matmul(s.transpose(1, 2), x)
-            adj_pool = torch.matmul(torch.matmul(s.transpose(1, 2), adj), s) 
+            adj_pool = torch.matmul(torch.matmul(s.transpose(1, 2), adj), s)
 
         # Total variation loss
         tv_loss = self.totvar_coeff*torch.mean(self.totvar_loss(adj, s))
-        
+
         # Balance loss
         bal_loss = self.balance_coeff*torch.mean(self.balance_loss(s))
 
@@ -131,13 +131,12 @@ class AsymCheegerCutPool(torch.nn.Module):
             return x_pool, adj_pool, tv_loss, bal_loss
 
     def totvar_loss(self, adj, s):
+        l1_norm = torch.sum(torch.abs(s[..., None, :] - s[:, None, ...]), dim=-1)
 
-        batch_idx, node_i, node_j = torch.nonzero(adj, as_tuple=True)
-        l1_norm = torch.sum(torch.abs(s[batch_idx, node_i, :] - s[batch_idx, node_j, :]), dim=(-1)) 
-        loss = torch.sum(adj[batch_idx, node_i, node_j]*l1_norm)
-        
-        # Normalize the loss
-        n_edges = len(node_i)
+        loss = torch.sum(adj * l1_norm, dim=(-1, -2))
+
+        # Normalize loss
+        n_edges = torch.sum(adj != 0)
         loss *= 1 / (2 * n_edges)
 
         return loss
@@ -151,8 +150,8 @@ class AsymCheegerCutPool(torch.nn.Module):
 
         # Asymmetric l1-norm
         loss = s - torch.unsqueeze(quant, dim=1)
-        loss = (loss >= 0) * (self.k - 1) * loss + (loss < 0) * loss * -1 
-        loss = torch.sum(loss, axis=(-1, -2)) # shape [B]
+        loss = (loss >= 0) * (self.k - 1) * loss + (loss < 0) * loss * -1
+        loss = torch.sum(loss, dim=(-1, -2)) # shape [B]
         loss = 1 / (n_nodes * (self.k - 1)) * (n_nodes * (self.k - 1) - loss)
 
         return loss
