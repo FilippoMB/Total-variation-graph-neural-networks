@@ -9,9 +9,77 @@ The TVGNN model can be used to **cluster** the vertices of an annotated graph, b
 
 <img align="center" width="273" height="143" src="img/sharp.png" alt="smooth and sharp clustering assignments">
 
-The TVGNN model can also be used to implement **graph pooling** in a deep GNN architecture for tasks such as graph classification.
+The TVGNN model can also be used to implement [graph pooling](https://gnn-pooling.notion.site/) in a deep GNN architecture for tasks such as graph classification.
 
-# Model description 
+# Downstream tasks
+TVGNN can be used to perform vertex clustering and graph classification. Other tasks such as graph regression can also be done with the TVGNN model.
+
+### Vertex clustering
+This is an unsupervised task, where the goal is to generate a partition of the vertices based on the similarity of their vertex features and the graph topology. The GNN model is trained only by minimizing the unsupervised loss $\mathcal{L}$.
+
+<img align="center" width="150" height="105" src="img/clustering.png" alt="clustering architecture">
+
+### Graph classification
+This is a supervised with goal of predicting the class of each graph. The GNN rchitectures for graph classification alternates GTVConv layers with a graph pooling layer, which gradually distill the global label information from the vertex representations. The GNN is trained by minimizing the unsupervised loss $\mathcal{L}$ for each pooling layer and a supervised cross-entropy loss $\mathcal{L}_\text{cross-entr}$ between the true and predicted class label.
+
+<img align="center" width="497" height="130" src="img/classification.png" alt="classification architecture">
+
+# 💻 Implementation
+
+<img align="left" width="30" height="30" src="https://upload.wikimedia.org/wikipedia/commons/2/2d/Tensorflow_logo.svg" alt="Tensorflow icon">
+
+### Tensorflow
+This implementation is based on the [Spektral](https://graphneural.network/) library and follows the [Select-Reduce-Connect](https://graphneural.network/layers/pooling/#srcpool) API.
+To execute the code, first install the conda environment from [tf_environment.yml](tensorflow/tf_environment.yml)
+
+    conda env create -f tf_environment.yml
+
+The ``tensorflow/`` folder includes:
+
+- The implementation of the [GTVConv](/tensorflow/GTVConv.py) layer
+- The implementation of the [AsymCheegerCutPool](/tensorflow/AsymCheegerCutPool.py) layer
+- An example script to perform the [clustering](/tensorflow/clustering.py) task
+- An example script to perform the  [classification](/tensorflow/classification.py) task
+
+<img align="left" width="30" height="30" src="https://upload.wikimedia.org/wikipedia/commons/1/10/PyTorch_logo_icon.svg" alt="Pytorch icon">
+
+### Pytorch
+This implementation is based on the [Pytorch Geometric](https://pytorch-geometric.readthedocs.io/) library. To execute the code, install the conda environment from [pytorch_environment.yml](pytorch/pytorch_environment.yml)
+
+    conda env create -f pytorch_environment.yml
+
+The ``pytorch/`` folder includes:
+
+- The implementation of the [GTVConv](/pytorch/GTVConv.py) layer
+- The implementation of the [AsymCheegerCutPool](/pytorch/AsymCheegerCutPool.py) layer
+- An example script to perform the [clustering](/pytorch/clustering.py) task
+- An example script to perform the  [classification](/pytorch/classification.py) task
+
+<img align="left" width="28" height="30" src="https://github.com/danielegrattarola/spektral/blob/master/docs/img/ghost_dark.svg" alt="Tensorflow icon">
+
+### Spektral
+
+TVGNN is available on Spektral:
+
+- [GTVConv](https://graphneural.network/layers/convolution/#gtvconv) layer,
+- [AsymCheegerCutPool](https://graphneural.network/layers/pooling/#asymcheegercutpool) layer,
+- [Example script](https://github.com/danielegrattarola/spektral/blob/master/examples/other/node_clustering_tvgnn.py) to perform node clustering with TVGNN.
+
+# 📚 Citation
+If you use TVGNN in your research, please consider citing our work as
+
+````bibtex
+@inproceedings{hansen2023total,
+  title={Total variation graph neural networks},
+  author={Hansen, Jonas Berg and Bianchi, Filippo Maria},
+  booktitle={International Conference on Machine Learning},
+  pages={12445--12468},
+  year={2023},
+  organization={PMLR}
+}
+````
+
+# ⚙️ Technical details 
 TVGNN consists of the GTVConv layer and the AsymmetricCheegerCut layer.
 
 ### GTVConv
@@ -48,71 +116,3 @@ where $\mathcal{L}_ \text{AN}^* = \displaystyle\sum^K_{k=1} ||\boldsymbol{s}_ {:
 When $\rho = K-1$, then $\beta = N\rho$.
 When $\rho$ takes different values, then $\beta = N\rho\min(1, K/(\rho+1))$. 
 $\text{quant}_ \rho(\boldsymbol{s}_ k)$ denotes the $\rho$-quantile of $\boldsymbol{s}_ k$ and $||\cdot||_ {1,\rho}$ denotes an asymmetric $\ell_1$ norm, which for a vector $\boldsymbol{x} \in \mathbb{R}^{N\times 1}$ is $||\boldsymbol{x}||_ {1,\rho}$ = $\displaystyle\sum^N_{i=1} |x_{i}|_ \rho$, where $|x_i|_ \rho = \rho x_i$ if $x_i\geq 0$ and $|x_i|_ \rho = -x_i$ if  $x_i < 0$. 
-
-# Downstream tasks
-We use TVGNN to perform vertex clustering and graph classification. Other tasks such as graph regression could be considered as well.
-
-### Vertex clustering
-This is an unsupervised task, where the goal is to generate a partition of the vertices based on the similarity of their vertex features and the graph topology. The GNN model is trained only by minimizing the unsupervised loss $\mathcal{L}$.
-
-<img align="center" width="150" height="105" src="img/clustering.png" alt="clustering architecture">
-
-### Graph classification
-This is a supervised with goal of predicting the class of each graph. The GNN rchitectures for graph classification alternates GTVConv layers with a graph pooling layer, which gradually distill the global label information from the vertex representations. The GNN is trained by minimizing the unsupervised loss $\mathcal{L}$ for each pooling layer and a supervised cross-entropy loss $\mathcal{L}_\text{cross-entr}$ between the true and predicted class label.
-
-<img align="center" width="497" height="130" src="img/classification.png" alt="classification architecture">
-
-# Implementation
-
-<img align="left" width="30" height="30" src="https://upload.wikimedia.org/wikipedia/commons/2/2d/Tensorflow_logo.svg" alt="Tensorflow icon">
-
-### Tensorflow
-This implementation is based on the [Spektral](https://graphneural.network/) library and follows the [Select-Reduce-Connect](https://graphneural.network/layers/pooling/#srcpool) API.
-To execute the code, first install the conda environment from [tf_environment.yml](tensorflow/tf_environment.yml)
-
-    conda env create -f tf_environment.yml
-
-The ``tensorflow/`` folder includes:
-
-- The implementation of the [GTVConv](/tensorflow/GTVConv.py) layer
-- The implementation of the [AsymCheegerCutPool](/tensorflow/AsymCheegerCutPool.py) layer
-- An example script to perform the [clustering](/tensorflow/clustering.py) task
-- An example script to perform the  [classification](/tensorflow/classification.py) task
-
-<img align="left" width="30" height="30" src="https://upload.wikimedia.org/wikipedia/commons/1/10/PyTorch_logo_icon.svg" alt="Pytorch icon">
-
-### Pytorch
-This implementation is based on the [Pytorch Geometric](https://pytorch-geometric.readthedocs.io/) library. To execute the code, first install the conda environment from [pytorch_environment.yml](pytorch/pytorch_environment.yml)
-
-    conda env create -f pytorch_environment.yml
-
-The ``pytorch/`` folder includes:
-
-- The implementation of the [GTVConv](/pytorch/GTVConv.py) layer
-- The implementation of the [AsymCheegerCutPool](/pytorch/AsymCheegerCutPool.py) layer
-- An example script to perform the [clustering](/pytorch/clustering.py) task
-- An example script to perform the  [classification](/pytorch/classification.py) task
-
-<img align="left" width="28" height="30" src="https://github.com/danielegrattarola/spektral/blob/master/docs/img/ghost_dark.svg" alt="Tensorflow icon">
-
-### Spektral
-
-TVGNN is now available on Spektral:
-
-- [GTVConv](https://graphneural.network/layers/convolution/#gtvconv) layer,
-- [AsymCheegerCutPool](https://graphneural.network/layers/pooling/#asymcheegercutpool) layer,
-- [Example script](https://github.com/danielegrattarola/spektral/blob/master/examples/other/node_clustering_tvgnn.py) to perform node clustering with TVGNN.
-
-# Citation
-If you use TVGNN in your research, please consider citing our work as
-
-````bibtex
-@inproceedings{hansen2023tvgnn,
-    title={Total Variation Graph Neural Networks},
-    author={Hansen, Jonas Berg and Bianchi, Filippo Maria},
-    booktitle={Proceedings of the 40th international conference on Machine learning},
-    pages={},
-    year={2023},
-    organization={ACM}
-}
-````
